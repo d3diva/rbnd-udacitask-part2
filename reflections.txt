@@ -39,7 +39,7 @@
 
     deletes completed todo item - cleans the list and helps to focus on pending tasks
 
-    fun and interesting to put in these features helps me to try out different things and learn 
-
+    fun and interesting to put in these features helps me to try out different things and learn
+    and makes the application useful and user friendly 
 4. Where do you still have room to grow?
     logic, cleaner and beautiful code and in less time and remember to commit more often
