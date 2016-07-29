@@ -10,11 +10,15 @@
           note - was trying to delete all completed items but got stuck, have not deleted the code
                  it would be great if you could help me figure out what's wrong
 
+          thank you -  was able to delete completed todo items
+
   b) Feature 2 - added status for todo items
 
   c) Feature 3 - can toggle status of todo item
 
   d) Feature 4 - change priority of given todo item
+
+  e) Feature 5 - deletes completed todo items -  thank you for helping out
 
 # REFLECTIONS
 # -------------------------------------------------------
@@ -25,7 +29,17 @@
     using Gem and not repeating the code
 
 3. What two additional features did you build? Why?
-    multiple delete, stats and status toggle
+    multiple delete, status, status toggle and deletes completed todo items
+
+    multiple delete - helps to delete more than item at a time
+
+    status - helps to know the status of todo items
+
+    toggle status - helps to know if the task is done
+
+    deletes completed todo item - cleans the list and helps to focus on pending tasks
+
+    fun and interesting to put in these features helps me to try out different things and learn 
 
 4. Where do you still have room to grow?
     logic, cleaner and beautiful code and in less time and remember to commit more often

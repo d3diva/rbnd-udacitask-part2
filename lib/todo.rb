@@ -1,17 +1,17 @@
 class TodoItem
   include Listable
-  attr_reader :description, :due, :priority, :item_type
+  attr_accessor :description, :due, :priority, :item_type, :status
 
-  def initialize(item_type, description, status, options={})
+  def initialize(item_type, description, options={})
     @item_type = item_type
     @description = description
     @due = options[:due] ? Chronic.parse(options[:due]) : options[:due]
     @priority = options[:priority]
-    @status = status
+    @status = options[:status] ? @status = options[:status] : @status = false
   end
 
   # changes priority of the given item
-  def change(new_priority)
+  def toggle_priority(new_priority)
     @priority = new_priority
   end
 

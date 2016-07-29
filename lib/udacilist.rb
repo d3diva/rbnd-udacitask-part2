@@ -1,13 +1,11 @@
 class UdaciList
-  attr_accessor :title, :items
+  attr_reader :title, :items
 
   def initialize(options={})
     options[:title] ? @title = options[:title] : @title = "Untitled List"
     @items = []
-    @itemlist = []
-    @delete_completed = []
-    @exist_item_types = ["todo", "event", "link"]
     @exist_priorities = ["high", "medium", "low", nil ]
+    @item_classes = {"todo"=>TodoItem, "event"=>EventItem, "link"=>LinkItem}
   end
 
   def priority_notfound(priority)
@@ -18,8 +16,8 @@ class UdaciList
     raise UdaciListErrors::InvalidItemType, "#{item_type} Item Type Does not exist"
   end
 
-  def index_notfound(index)
-    raise UdaciListErrors::IndexExceedsListSize, "#{index} Does not exist"
+  def index_notfound(item_no)
+    raise UdaciListErrors::IndexExceedsListSize, "#{item_no} Does not exist"
   end
 
 
@@ -28,58 +26,46 @@ class UdaciList
       @exist_priorities.include? priority
   end
 
-  def todoitem(item_type, description, status, options)
-    if priority_exist(options[:priority])
-      @items.push TodoItem.new(item_type, description, status, options)
-    else
-      priority_notfound(priority)
-    end
-  end
-
-  # creates new EventItem and pushes to items array
-  def eventitem(item_type, description, options)
-      @items.push EventItem.new(item_type, description, options)
-  end
-
-  # cerates new LinkItem and pushes to items array
-  def linkitem(item_type, description, options)
-    @items.push LinkItem.new(item_type, description, options)
-  end
-
   # verifies item_type
   def type_exist(item_type)
-      @exist_item_types.include? item_type
+      @item_classes.include? item_type
+  end
+
+  def continue_add_items(item_type, description, options)
+    if priority_exist(options[:priority])
+      @items.push @item_classes[item_type].new(item_type, description, options)
+    else
+      priority_notfound(options[:priority])
+    end
   end
 
   # adds new items
   def add(item_type, description, options={})
     item_type = item_type.downcase
     if type_exist(item_type)
-      todoitem(item_type, description, status = false, options) if item_type == "todo"
-      eventitem(item_type, description, options) if item_type == "event"
-      linkitem(item_type, description, options) if item_type == "link"
+      continue_add_items(item_type, description, options)
     else
       item_type_notfound(item_type)
     end
   end
 
   # delete item after verifing
-  def index_exist(index)
-    @items.length >= index
+  def index_exist(item_no)
+    @items.length >= item_no
   end
 
-
-  def delete_index(index)
-    @items.delete_at(index - 1)
+  def delete_index(item_no)
+    @items.delete_at(item_no)
   end
 
-  def delete(index)
-    index_exist(index) ? delete_index(index) : index_notfound(index)
+  def delete(item_no)
+    item_no = item_no - 1
+    index_exist(item_no) ? delete_index(item_no) : index_notfound(item_no)
   end
 
   # sorts the to be deleted items and deletes if exists
-  def multilpe_delete(items)
-    items.sort.each_with_index {|e, index| delete(e - index)}
+  def multiple_delete(items)
+    items.sort.each_with_index {|item, item_no| delete(item - item_no)}
   end
 
   # prints all items
@@ -117,12 +103,12 @@ class UdaciList
   end
 
   def item_type_list(item_type)
-    @items.each { |item| @itemlist.push item if item.item_type == item_type }
+    @items.select { |item| item.item_type == item_type }
   end
 
   def filter(item_type)
-    item_type_list(item_type) if type_exist(item_type) 
-    !@itemlist.empty?? print_itemlist(@itemlist, item_type) : item_type_notfound(item_type)
+    itemlist = item_type_list(item_type) if type_exist(item_type)
+    itemlist.empty?? item_type_notfound(item_type) : print_itemlist(itemlist, item_type)
   end
 
   # changes priority of given todo item
@@ -130,10 +116,10 @@ class UdaciList
     @items.each { |item| item.priority = todo_priority if item.description == todo_item }
   end
 
-  # delets completed todo items - not working
+  # delets completed todo items
   def delete_completed
-    @itemlist = item_type_list("todo")
-    @itemlist.each_with_index { |item, index| puts"#{ index}" if item.status == true}
+    todo_item_list = item_type_list("todo")
+    todo_item_list.each_with_index { |item, item_no| delete_index(item_no) if item.status == true}
   end
 
 end

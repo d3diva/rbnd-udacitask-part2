@@ -44,7 +44,7 @@ list.all
  new_list.all
 
  # Delet multiple items
- new_list.multilpe_delete(items = [7, 4, 6])
+ new_list.multiple_delete(items = [7, 4, 6])
 
  new_list.all
 
@@ -58,7 +58,7 @@ list.all
   @todo_list = new_list.item_type_list("todo")
 
  def priority_change(item, priority)
-   @todo_list.each { |todo| todo.change(priority) if todo.description == item }
+   @todo_list.each { |todo| todo.toggle_priority(priority) if todo.description == item }
  end
 
  priority_change("Go dancing", "low")
@@ -72,6 +72,8 @@ list.all
 
  done("Buy groceries")
 
- #new_list.delete_completed
+ new_list.all
+
+ new_list.delete_completed
 
  new_list.all
