@@ -14,6 +14,8 @@
 
   c) Feature 3 - can toggle status of todo item
 
+  d) Feature 4 - change priority of given todo item
+
 # REFLECTIONS
 # -------------------------------------------------------
 1. How long did you spend working on this project?
