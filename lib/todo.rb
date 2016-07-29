@@ -1,45 +1,31 @@
 class TodoItem
   include Listable
-  attr_reader :description, :due, :priority
+  attr_reader :description, :due, :priority, :item_type
 
-  def initialize(description, options={})
+  def initialize(item_type, description, status, options={})
+    @item_type = item_type
     @description = description
     @due = options[:due] ? Chronic.parse(options[:due]) : options[:due]
     @priority = options[:priority]
-    verify_priority(@priority) if @priority
+    @status = status
   end
 
-  def priority_type_exist(priority)
-    priority == "high" || priority == "medium" || priority == "low"
+  # changes priority of the given item
+  def change(new_priority)
+    @priority = new_priority
   end
 
-  def priority_type_error(priority)
-    puts "#{priority} does not exist"
-    #@priority = ""
+  # toggles the status of the item
+  def update_status
+    @status = !@status
   end
 
-  def verify_priority(priority)
-    priority = priority.downcase
-    priority_type_error(priority) if !priority_type_exist(priority)
-  end
-
-
-  #def format_description
-  #  "#{@description}".ljust(25)
-  #end
-  #def format_date
-  #  @due ? @due.strftime("%D") : "No due date"
-  #end
-  #def format_priority
-  #  value = " ⇧" if @priority == "high"
-  #  value = " ⇨" if @priority == "medium"
-  #  value = " ⇩" if @priority == "low"
-  #  value = "" if !@priority
-  #  return value
-  #end
+  # details of the item
   def details
+    format_list_type(@item_type) +
     format_description(@description) + "due: " +
     format_date(due: @due) +
-    format_priority(@priority).to_s
+    format_priority(@priority) +
+    format_status(@status)
   end
 end

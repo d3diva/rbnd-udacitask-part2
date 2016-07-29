@@ -1,5 +1,6 @@
 require 'chronic'
 require 'colorize'
+require 'mechanize'
 # Find a third gem of your choice and add it to your project
 require 'date'
 require_relative "lib/listable"
@@ -32,19 +33,45 @@ list.all
  new_list.add("link", "https://www.udacity.com/", site_name: "Udacity Homepage")
  new_list.add("link", "http://ruby-doc.org")
 
- puts " ================= before errors ================"
- new_list.all
- puts " ================= errors ================"
 # SHOULD RETURN ERROR MESSAGES
 # ----------------------------
  #new_list.add("image", "http://ruby-doc.org") # Throws InvalidItemType error
  #new_list.delete(9) # Throws an IndexExceedsListSize error
- new_list.add("todo", "Hack some portals", priority: "super high") # throws an InvalidPriorityValue error
+ #new_list.add("todo", "Hack some portals", priority: "super high") # throws an InvalidPriorityValue error
 
 # DISPLAY UNTITLED LIST
 # ---------------------
  new_list.all
 
+ # Delet multiple items
+ new_list.multilpe_delete(items = [7, 4, 6])
+
+ new_list.all
+
 # DEMO FILTER BY ITEM TYPE
 # ------------------------
-# new_list.filter("event")
+  new_list.filter("event")
+
+
+  # 1. extra feature - changes priority of todo item
+
+  @todo_list = new_list.item_type_list("todo")
+
+ def priority_change(item, priority)
+   @todo_list.each { |todo| todo.change(priority) if todo.description == item }
+ end
+
+ priority_change("Go dancing", "low")
+ priority_change("Buy groceries", "medium")
+
+
+ # 2. extra feature - toggles completed status of todo item
+ def done(item)
+   @todo_list.each { |todo| todo.update_status if todo.description == item }
+ end
+
+ done("Buy groceries")
+
+ #new_list.delete_completed
+
+ new_list.all

@@ -1,13 +1,29 @@
 # What you added to Udacitask 2.0
 # -------------------------------------------------------
 1. What is the gem of your choice and how did you use it?
+    Gem used - Mechanize,
+    Used it get web site name if one is not provided with the url in the link item
+
 2. Describe the 2 features you added to the project.
-  a) Feature 1...
-  b) Feature 2...
+  a) Feature 1 - multiple delete, can delete multiple items in any sequence, will sort and delete the items
+
+          note - was trying to delete all completed items but got stuck, have not deleted the code
+                 it would be great if you could help me figure out what's wrong
+
+  b) Feature 2 - added status for todo items
+
+  c) Feature 3 - can toggle status of todo item
 
 # REFLECTIONS
 # -------------------------------------------------------
 1. How long did you spend working on this project?
+    quite some time more than 7 hrs
+
 2. What was the most rewarding challenge you conquered?
+    using Gem and not repeating the code
+
 3. What two additional features did you build? Why?
+    multiple delete, stats and status toggle
+
 4. Where do you still have room to grow?
+    logic, cleaner and beautiful code and in less time and remember to commit more often
